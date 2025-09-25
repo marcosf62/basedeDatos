@@ -41,3 +41,5 @@ GROUP BY
     p.nombre
 ORDER BY 
     total_vendido DESC;	
+-- Un script que permita agregar una nueva Localidad, de una nueva provincia de un pais que no Esta cargado en la tabla paises
+
