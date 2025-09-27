@@ -29,3 +29,29 @@ INNER JOIN productos p ON d.id_producto=p.id
 INNER JOIN factura f ON f.id=d.id_factura
 WHERE f.estado='ACTIVA'
 GROUP BY p.nombre, YEAR(f.fecha), MONTH(f.fecha);
+
+-- Una vista que muestre la mayor venta del mes.
+
+CREATE OR REPLACE VIEW venta_del_mes AS
+SELECT id, fecha, total
+FROM factura
+WHERE estado='ACTIVA'
+AND MONTH(fecha)=MONTH(NOW())
+AND total=(SELECT MAX(total)
+FROM factura
+WHERE MONTH(fecha)=MONTH(NOW()) AND estado='ACTIVA'
+);
+
+-- Una vista que muestre la menor  venta del mes.
+
+CREATE OR REPLACE VIEW menor_venta_del_mes AS
+SELECT id, fecha, total
+FROM factura
+WHERE estado='ACTIVA'
+AND MONTH(fecha)=MONTH(NOW())
+AND total=(SELECT MIN(total)
+FROM factura
+WHERE MONTH(fecha)=MONTH(NOW()) AND estado='ACTIVA'
+);
+
+

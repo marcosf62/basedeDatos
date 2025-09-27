@@ -41,5 +41,31 @@ GROUP BY
     p.nombre
 ORDER BY 
     total_vendido DESC;	
+
 -- Un script que permita agregar una nueva Localidad, de una nueva provincia de un pais que no Esta cargado en la tabla paises
+
+INSERT INTO pais (nombre) VALUES ('Francia');
+SELECT @id_pais := MAX(id) FROM pais;
+INSERT INTO provincia (id, nombre, id_pais) VALUES (1, 'Normandia', @id_pais);
+SELECT @id_provincia :=MAX(id) FROM provincia;
+INSERT INTO localidad (id, nombre_localidad, id_provincia) VALUES (2, 'Saint Mere Eglise', @id_provincia);
+
+
+-- Un script que muestro al cliente con mas ventas del año.
+
+SELECT p.nombre, SUM(f.total) AS total_ventas
+FROM factura f 
+INNER JOIN persona p ON f.id_persona = p.id 
+WHERE YEAR(f.fecha )=YEAR(NOW()) AND f.estado = 'ACTIVA'
+GROUP BY p.nombre 
+ORDER  BY total_ventas DESC
+LIMIT 1;
+
+
+
+
+
+
+
+
 
